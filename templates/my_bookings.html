@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Bookings</title>
+</head>
+<body style="font-family:Arial;background:#141414;color:white;text-align:center;">
+
+<h1>🎫 My Bookings</h1>
+
+<table border="1" align="center" cellpadding="10">
+
+<tr>
+    <th>Ticket</th>
+    <th>Movie ID</th>
+    <th>Seats</th>
+    <th>Amount</th>
+</tr>
+
+{% for booking in bookings %}
+
+<tr>
+
+<td>MOV{{ booking.id }}</td>
+<td>{{ booking.movie_id }}</td>
+<td>{{ booking.seats }}</td>
+<td>₹{{ booking.total_amount }}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</body>
+</html>

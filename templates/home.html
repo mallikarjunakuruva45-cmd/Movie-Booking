@@ -1,0 +1,507 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Movie Booking System</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #0f0f0f;
+            color: white;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            height: 70px;
+            background: #1c1c1c;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #ff2b2b;
+        }
+
+        .logo span {
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            background: #333;
+        }
+
+        .bookings-btn {
+            background: #e50914 !important;
+        }
+
+        .bookings-btn:hover {
+            background: #ff1f2a !important;
+        }
+
+        /* ================= HERO ================= */
+
+        .hero {
+            min-height: 360px;
+            background:
+                linear-gradient(
+                    rgba(0,0,0,0.65),
+                    rgba(0,0,0,0.85)
+                ),
+                radial-gradient(
+                    circle at center,
+                    #5a1010,
+                    #111 65%
+                );
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 18px;
+        }
+
+        .hero h1 span {
+            color: #ff2020;
+        }
+
+        .hero p {
+            font-size: 19px;
+            color: #d0d0d0;
+            margin-bottom: 30px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .hero-btn {
+            display: inline-block;
+            padding: 13px 25px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            background: #e50914;
+            color: white;
+            transition: 0.3s;
+        }
+
+        .hero-btn:hover {
+            background: #ff2020;
+            transform: translateY(-2px);
+        }
+
+        .location-btn {
+            background: #333;
+        }
+
+        .location-btn:hover {
+            background: #555;
+        }
+
+        /* ================= SECTION ================= */
+
+        .section {
+            padding: 45px 7%;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 30px;
+        }
+
+        .section-title span {
+            color: #ff2020;
+        }
+
+        /* ================= MOVIES ================= */
+
+        .movies {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+        }
+
+        .movie-card {
+            background: #1f1f1f;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: 0.3s;
+            border: 1px solid #2d2d2d;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+            border-color: #444;
+        }
+
+        /* Poster */
+
+        .poster {
+            height: 300px;
+            background: linear-gradient(135deg, #333, #111);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .poster img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .poster-placeholder {
+            font-size: 65px;
+        }
+
+        /* Movie information */
+
+        .movie-info {
+            padding: 20px;
+        }
+
+        .movie-title {
+            font-size: 22px;
+            margin-bottom: 12px;
+        }
+
+        .movie-details {
+            color: #cfcfcf;
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        .rating {
+            color: #ffd000;
+            font-weight: bold;
+        }
+
+        .book-now {
+            width: 100%;
+            border: none;
+            background: #e50914;
+            color: white;
+            padding: 12px;
+            margin-top: 17px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .book-now:hover {
+            background: #ff2020;
+        }
+
+        /* ================= EMPTY STATE ================= */
+
+        .no-movies {
+            text-align: center;
+            padding: 70px 20px;
+            color: #aaa;
+        }
+
+        .no-movies-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            background: #181818;
+            text-align: center;
+            padding: 25px;
+            margin-top: 30px;
+            color: #999;
+            border-top: 1px solid #292929;
+        }
+
+        footer strong {
+            color: #ff2020;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                height: auto;
+                padding: 15px 5%;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero h1 {
+                font-size: 35px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .section {
+                padding: 35px 5%;
+            }
+
+            .section-title {
+                font-size: 25px;
+            }
+
+            .poster {
+                height: 280px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            🎬 <span>MovieBooking</span>
+        </div>
+
+        <div class="nav-links">
+
+            <a href="/home">
+                🏠 Home
+            </a>
+
+            <a href="#movies">
+                🎬 Movies
+            </a>
+
+            <a href="/location">
+                📍 Theaters
+            </a>
+
+            <a href="/mybookings" class="bookings-btn">
+                🎫 My Bookings
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ================= HERO SECTION ================= -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <h1>
+                Book Your <span>Movie Tickets</span>
+            </h1>
+
+            <p>
+                Discover the latest movies, choose your favorite theater,
+                select your seats and enjoy the show.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="#movies" class="hero-btn">
+                    🎬 Browse Movies
+                </a>
+
+                <a href="/location" class="hero-btn location-btn">
+                    📍 Find Nearby Theaters
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= MOVIES SECTION ================= -->
+
+    <section class="section" id="movies">
+
+        <div class="section-header">
+
+            <h2 class="section-title">
+                🎬 <span>Now Showing</span>
+            </h2>
+
+        </div>
+
+
+        {% if movies %}
+
+        <div class="movies">
+
+            {% for movie in movies %}
+
+            <div class="movie-card">
+
+                <!-- Poster -->
+
+                <div class="poster">
+
+                    {% if movie.poster %}
+
+                        <img
+                            src="{{ movie.poster }}"
+                            alt="{{ movie.title }} Poster"
+                        >
+
+                    {% else %}
+
+                        <div class="poster-placeholder">
+                            🎬
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- Movie information -->
+
+                <div class="movie-info">
+
+                    <h3 class="movie-title">
+                        {{ movie.title }}
+                    </h3>
+
+                    <div class="movie-details">
+
+                        <div>
+                            <strong>Genre:</strong>
+                            {{ movie.genre }}
+                        </div>
+
+                        <div>
+                            <strong>Duration:</strong>
+                            {{ movie.duration }}
+                        </div>
+
+                        <div>
+                            <strong>Rating:</strong>
+                            <span class="rating">
+                                ⭐ {{ movie.rating }}
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <!-- Book Now -->
+
+                    <button
+                        class="book-now"
+                        onclick="window.location.href='/theaters/1'"
+                    >
+                        🎟️ Book Now
+                    </button>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        {% else %}
+
+        <div class="no-movies">
+
+            <div class="no-movies-icon">
+                🎬
+            </div>
+
+            <h2>No movies available</h2>
+
+            <p>
+                Movies will appear here when they are added.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </section>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <p>
+            © 2026 <strong>MovieBooking</strong>
+            — Book your favorite movies easily.
+        </p>
+
+    </footer>
+
+
+</body>
+</html>
+

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ movie.title }}</title>
+</head>
+<body style="font-family:Arial;background:#141414;color:white;text-align:center;">
+
+    <h1>{{ movie.title }}</h1>
+
+    <h3>Genre: {{ movie.genre }}</h3>
+
+    <h3>Duration: {{ movie.duration }}</h3>
+
+    <h3>Rating: ⭐ {{ movie.rating }}</h3>
+
+    <p>{{ movie.description }}</p>
+
+    <br>
+
+    <button onclick="window.location.href='/seats/{{ movie.id }}'">
+    Select Seats
+</button>
+
+</body>
+</html>

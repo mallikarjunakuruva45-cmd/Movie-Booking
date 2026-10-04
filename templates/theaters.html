@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Theaters</title>
+</head>
+
+<body style="font-family:Arial;background:#141414;color:white;text-align:center;">
+
+<h1>{{ city.city_name }} Theaters</h1>
+
+{% for theater in theaters %}
+
+<div style="background:#222;padding:20px;margin:15px;border-radius:10px;">
+
+<h2>{{ theater.theater_name }}</h2>
+
+<p>{{ theater.address }}</p>
+
+<button onclick="window.location.href='/theater_movies/{{ theater.id }}'">
+    View Movies
+</button>
+
+</div>
+
+{% endfor %}
+
+</body>
+</html>

@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Verify OTP - MovieBooking</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #000;
+            color: white;
+            font-family: Arial, sans-serif;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 420px;
+            max-width: 90%;
+
+            background: #1d1d1d;
+
+            padding: 40px 32px;
+
+            border-radius: 20px;
+
+            text-align: center;
+
+            box-shadow: 0 10px 40px rgba(255,255,255,0.08);
+        }
+
+        .logo {
+            font-size: 45px;
+            margin-bottom: 5px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: #aaa;
+            margin-top: 12px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+        }
+
+        .mobile {
+            color: #aaa;
+            margin-bottom: 25px;
+        }
+
+        .otp-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .otp-input {
+            width: 60px;
+            height: 60px;
+
+            background: #222;
+            color: white;
+
+            border: 1px solid #444;
+            border-radius: 10px;
+
+            text-align: center;
+
+            font-size: 24px;
+            font-weight: bold;
+
+            outline: none;
+        }
+
+        .otp-input:focus {
+            border-color: red;
+        }
+
+        .verify-btn {
+            width: 100%;
+            height: 54px;
+
+            background: #ed0712;
+            color: white;
+
+            border: none;
+            border-radius: 10px;
+
+            font-size: 17px;
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .verify-btn:hover {
+            background: #ff1822;
+        }
+
+        .verify-btn:disabled {
+            background: #555;
+            cursor: not-allowed;
+        }
+
+        .resend-text {
+            margin-top: 22px;
+            color: #aaa;
+        }
+
+        .links {
+            margin-top: 15px;
+        }
+
+        .links a {
+            color: #ff101a;
+            text-decoration: none;
+            margin: 0 8px;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+
+        #message {
+            margin-top: 20px;
+            font-size: 15px;
+            min-height: 20px;
+        }
+
+        .success {
+            color: #00e676;
+        }
+
+        .error {
+            color: #ff5252;
+        }
+
+        .info {
+            color: #aaa;
+        }
+
+        #timerBox {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #aaa;
+        }
+
+        #resendBtn {
+            margin-top: 10px;
+            background: none;
+            border: none;
+            color: #999;
+            cursor: not-allowed;
+            font-size: 14px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <div class="logo">🎬</div>
+
+    <h1>MovieBooking</h1>
+
+    <div class="subtitle">
+        Login with your mobile number
+    </div>
+
+    <h2>Enter OTP</h2>
+
+    <div class="mobile">
+        OTP sent to +91 <span id="displayMobile"></span>
+    </div>
+
+    <div class="otp-container">
+        <input type="text" maxlength="1" class="otp-input" inputmode="numeric" autocomplete="one-time-code">
+        <input type="text" maxlength="1" class="otp-input" inputmode="numeric">
+        <input type="text" maxlength="1" class="otp-input" inputmode="numeric">
+        <input type="text" maxlength="1" class="otp-input" inputmode="numeric">
+    </div>
+
+    <button class="verify-btn" id="verifyBtn">
+        Verify &amp; Login
+    </button>
+
+    <div id="timerBox">
+        Resend OTP in <span id="timer">60</span> seconds
+    </div>
+
+    <button type="button" id="resendBtn" disabled>
+        Resend OTP
+    </button>
+
+    <div class="links">
+        <a href="/">Change mobile number</a>
+    </div>
+
+    <div id="message"></div>
+
+</div>
+
+
+<script>
+
+    console.log("VERIFY OTP PAGE LOADED");
+
+    const loginMobile = sessionStorage.getItem("login_mobile");
+
+    console.log("Login mobile:", loginMobile);
+
+    if (loginMobile) {
+        document.getElementById("displayMobile").innerText = loginMobile;
+    } else {
+        console.error("Mobile number not found.");
+    }
+
+    var configuration = {
+
+        widgetId: "366870685869303438353533",
+        tokenAuth: "561136TcjzLANfgKw6a873eb9P1",
+
+        identifier: loginMobile ? "91" + loginMobile : "",
+
+        exposeMethods: true,
+        captchaRenderId: "",
+
+        success: function(data) {
+            console.log("MSG91 SUCCESS:", data);
+        },
+
+        failure: function(error) {
+            console.error("MSG91 FAILURE:", error);
+        }
+
+    };
+
+</script>
+
+
+<script
+    type="text/javascript"
+    src="https://verify.msg91.com/otp-provider.js"
+    onload="initSendOTP(configuration)"
+></script>
+
+
+<script>
+
+    const otpInputs = document.querySelectorAll(".otp-input");
+    const verifyBtn = document.getElementById("verifyBtn");
+    const resendBtn = document.getElementById("resendBtn");
+    const message = document.getElementById("message");
+
+    otpInputs.forEach(function(input, index) {
+
+        input.addEventListener("input", function() {
+            this.value = this.value.replace(/[^0-9]/g, "");
+
+            if (this.value && index < otpInputs.length - 1) {
+                otpInputs[index + 1].focus();
+            }
+        });
+
+        input.addEventListener("keydown", function(event) {
+            if (event.key === "Backspace" && !this.value && index > 0) {
+                otpInputs[index - 1].focus();
+            }
+        });
+
+    });
+
+    function getOTP() {
+        let otp = "";
+        otpInputs.forEach(function(input) {
+            otp += input.value;
+        });
+        return otp;
+    }
+
+    function showMessage(text, type) {
+        message.innerText = text;
+        message.className = type || "info";
+    }
+
+    verifyBtn.addEventListener("click", function() {
+
+        const otp = getOTP();
+
+        console.log("OTP entered:", otp, "Mobile:", loginMobile);
+
+        if (otp.length !== 4) {
+            showMessage("Please enter the complete 4-digit OTP.", "error");
+            return;
+        }
+
+        if (!loginMobile) {
+            showMessage("Mobile number is missing. Please login again.", "error");
+            return;
+        }
+
+        if (typeof window.verifyOtp !== "function") {
+            console.error("MSG91 verifyOtp is not available.");
+            showMessage("MSG91 is still loading. Please wait and try again.", "error");
+            return;
+        }
+
+        verifyBtn.disabled = true;
+        verifyBtn.innerText = "Verifying...";
+        showMessage("Verifying OTP...", "info");
+
+        console.log("Calling MSG91 verifyOtp...");
+
+        window.verifyOtp(
+
+            otp,
+
+            /* SUCCESS */
+            function(data) {
+
+                console.log("MSG91 OTP VERIFIED");
+                console.log("MSG91 RESPONSE:", data);
+
+                let accessToken = null;
+
+                if (data) {
+                    if (typeof data.message === "string" && data.message.length > 100) {
+                        accessToken = data.message;
+                    }
+                    if (!accessToken) {
+                        accessToken =
+                            data["access-token"] ||
+                            data["access_token"] ||
+                            data.accessToken ||
+                            data.token ||
+                            data.jwt ||
+                            null;
+                    }
+                }
+
+                console.log("Access token found:", !!accessToken);
+
+                if (!accessToken) {
+                    console.error("MSG91 did not return access token.");
+                    showMessage("OTP verified, but login token was not received.", "error");
+                    verifyBtn.disabled = false;
+                    verifyBtn.innerText = "Verify & Login";
+                    return;
+                }
+
+                console.log("Sending token to Flask...");
+
+                fetch("/verify_msg91", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        mobile: loginMobile,
+                        access_token: accessToken
+                    })
+                })
+                .then(function(response) {
+                    return response.json().then(function(result) {
+                        return { ok: response.ok, result: result };
+                    });
+                })
+                .then(function(data) {
+
+                    console.log("Flask response:", data.result);
+
+                    if (data.ok && data.result.success) {
+
+                        showMessage("Login successful!", "success");
+                        sessionStorage.removeItem("login_mobile");
+
+                        setTimeout(function() {
+                            window.location.href = data.result.redirect || "/home";
+                        }, 500);
+
+                    } else {
+
+                        showMessage(data.result.message || "Login failed.", "error");
+                        verifyBtn.disabled = false;
+                        verifyBtn.innerText = "Verify & Login";
+
+                    }
+
+                })
+                .catch(function(error) {
+                    console.error("Flask error:", error);
+                    showMessage("Unable to contact server.", "error");
+                    verifyBtn.disabled = false;
+                    verifyBtn.innerText = "Verify & Login";
+                });
+
+            },
+
+            /* FAILURE */
+            function(error) {
+                console.error("MSG91 VERIFY ERROR:", error);
+                showMessage("Invalid or expired OTP.", "error");
+                verifyBtn.disabled = false;
+                verifyBtn.innerText = "Verify & Login";
+            }
+
+        );
+
+    });
+
+    /* ========================================
+       OTP TIMER
+       ======================================== */
+
+    let timerSeconds = 60;
+    let timerInterval = null;
+
+    function startOTPTimer() {
+
+        clearInterval(timerInterval);
+        timerSeconds = 60;
+
+        const timerElement = document.getElementById("timer");
+        const timerBox = document.getElementById("timerBox");
+
+        resendBtn.disabled = true;
+        resendBtn.style.color = "#999";
+        resendBtn.style.cursor = "not-allowed";
+
+        timerElement.textContent = timerSeconds;
+
+        timerInterval = setInterval(function() {
+
+            timerSeconds--;
+            timerElement.textContent = timerSeconds;
+
+            if (timerSeconds <= 0) {
+
+                clearInterval(timerInterval);
+                timerElement.textContent = "0";
+
+                resendBtn.disabled = false;
+                resendBtn.style.color = "#e50914";
+                resendBtn.style.cursor = "pointer";
+
+                if (timerBox) {
+                    timerBox.innerHTML = "Didn't receive OTP?";
+                }
+            }
+
+        }, 1000);
+    }
+
+    async function resendOTP() {
+
+        if (!resendBtn || resendBtn.disabled) {
+            return;
+        }
+
+        console.log("RESENDING OTP");
+
+        resendBtn.disabled = true;
+        resendBtn.style.color = "#999";
+        resendBtn.style.cursor = "not-allowed";
+
+        try {
+
+            if (typeof window.retryOtp !== "function") {
+                console.error("MSG91 retryOtp function not available.");
+                showMessage("Unable to resend OTP. Please refresh the page.", "error");
+                return;
+            }
+
+            window.retryOtp(
+                function(data) {
+                    console.log("MSG91 RESEND SUCCESS:", data);
+                    showMessage("New OTP sent successfully.", "success");
+                    startOTPTimer();
+                },
+                function(error) {
+                    console.error("MSG91 RESEND ERROR:", error);
+                    showMessage("Unable to resend OTP. Please try again.", "error");
+                    resendBtn.disabled = false;
+                    resendBtn.style.color = "#e50914";
+                    resendBtn.style.cursor = "pointer";
+                }
+            );
+
+        } catch (error) {
+            console.error("Resend OTP exception:", error);
+            resendBtn.disabled = false;
+            resendBtn.style.color = "#e50914";
+            resendBtn.style.cursor = "pointer";
+            showMessage("Unable to resend OTP. Please try again.", "error");
+        }
+    }
+
+    resendBtn.addEventListener("click", resendOTP);
+
+    window.addEventListener("load", function() {
+        console.log("Starting OTP timer...");
+        startOTPTimer();
+    });
+
+</script>
+
+</body>
+</html>

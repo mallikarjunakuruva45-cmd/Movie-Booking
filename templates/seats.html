@@ -1,0 +1,239 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Select Seats</title>
+
+    <style>
+        body{
+            margin:0;
+            font-family:Arial;
+            background:#111;
+            color:white;
+        }
+
+        .container{
+            width:95%;
+            margin:auto;
+            text-align:center;
+        }
+
+        h1{
+            margin-top:20px;
+        }
+
+        .screen{
+            width:70%;
+            margin:30px auto;
+            background:white;
+            color:black;
+            padding:15px;
+            border-radius:100px;
+            font-weight:bold;
+            box-shadow:0 8px 20px rgba(255,255,255,.3);
+        }
+
+        .seat-area{
+            display:inline-block;
+            margin-top:20px;
+        }
+
+        .row{
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            margin:10px 0;
+        }
+
+        .row-name{
+            width:30px;
+            font-weight:bold;
+            text-align:center;
+        }
+
+        .seat{
+            width:34px;
+            height:34px;
+            margin:4px;
+            border:none;
+            border-radius:6px;
+            cursor:pointer;
+            background:#2ecc71;
+            color:white;
+            font-size:12px;
+            transition:.2s;
+        }
+
+        .seat:hover{
+            transform:scale(1.1);
+        }
+
+        .selected{
+            background:#3498db;
+        }
+
+        .booked{
+            background:#e74c3c;
+            cursor:not-allowed;
+        }
+
+        .walkway{
+            height:30px;
+        }
+
+        .legend{
+            display:flex;
+            justify-content:center;
+            gap:30px;
+            margin-top:30px;
+        }
+
+        .box{
+            width:20px;
+            height:20px;
+            display:inline-block;
+            margin-right:8px;
+            border-radius:4px;
+        }
+
+        .summary{
+            margin-top:30px;
+        }
+
+        .confirm{
+            padding:12px 35px;
+            background:#27ae60;
+            color:white;
+            border:none;
+            border-radius:8px;
+            font-size:18px;
+            cursor:pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>{{ movie.title }}</h1>
+<h3>{{ screen.screen_name }}</h3>
+
+<div class="screen">
+SCREEN
+</div>
+
+<form id="seatForm" method="GET">
+
+<input type="hidden" id="selectedSeats" name="seats">
+
+<div class="seat-area">
+
+{% for row_name, row_seats in rows.items() %}
+
+{% if row_name == 'F' %}
+<div class="walkway"></div>
+{% endif %}
+
+<div class="row">
+
+<div class="row-name">{{ row_name }}</div>
+
+{% for seat in row_seats %}
+
+
+<button
+type="button"
+class="seat {% if seat.seat_number in booked_seats %}booked{% endif %}"
+{% if seat.seat_number in booked_seats %}disabled{% endif %}
+onclick="selectSeat(this)">
+{{ seat.seat_number }}
+</button>
+
+
+
+{% endfor %}
+
+</div>
+
+{% endfor %}
+
+</div>
+
+<div class="legend">
+
+<div>
+<span class="box" style="background:#2ecc71;"></span>
+Available
+</div>
+
+<div>
+<span class="box" style="background:#3498db;"></span>
+Selected
+</div>
+
+<div>
+<span class="box" style="background:#e74c3c;"></span>
+Booked
+</div>
+
+</div>
+
+
+<div class="summary">
+
+    <h2>
+        Selected Seats:
+        <span id="seatList">None</span>
+    </h2>
+
+    <h2>
+        Total Amount: ₹
+        <span id="amount">0</span>
+    </h2>
+
+    <br>
+
+    <!-- Confirm Booking Button -->
+    <button type="submit" class="confirm">
+        Confirm Booking
+    </button>
+
+</div>
+
+</form>
+
+</div>
+
+<script>
+
+let selected = [];
+const price = parseFloat("{{ show.ticket_price }}");
+
+function selectSeat(btn){
+
+    let seat = btn.innerText.trim();
+
+    if(selected.includes(seat)){
+        selected = selected.filter(s => s != seat);
+        btn.classList.remove("selected");
+    }else{
+        selected.push(seat);
+        btn.classList.add("selected");
+    }
+
+    document.getElementById("selectedSeats").value = selected.join(",");
+    document.getElementById("seatList").innerText =
+        selected.length ? selected.join(", ") : "None";
+    document.getElementById("amount").innerText =
+        selected.length * price;
+}
+
+// Set booking URL
+document.getElementById("seatForm").action = "/booking/{{ show.id }}";
+
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ theater.theater_name }}</title>
+
+    <style>
+        body{
+            margin:0;
+            font-family:Arial, sans-serif;
+            background:#111;
+            color:white;
+        }
+
+        .container{
+            width:90%;
+            margin:30px auto;
+        }
+
+        h1{
+            text-align:center;
+            margin-bottom:40px;
+        }
+
+        .movie-card{
+            background:#1f1f1f;
+            border-radius:12px;
+            padding:20px;
+            margin-bottom:20px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+
+        .movie-info h2{
+            margin:0 0 10px;
+        }
+
+        .movie-info p{
+            margin:6px 0;
+            color:#ccc;
+        }
+
+        .book-btn{
+            padding:12px 25px;
+            background:#e50914;
+            color:white;
+            border:none;
+            border-radius:8px;
+            cursor:pointer;
+            font-size:16px;
+        }
+
+        .book-btn:hover{
+            background:#c40812;
+        }
+
+        .back-btn{
+            display:inline-block;
+            margin-bottom:20px;
+            color:white;
+            text-decoration:none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <a href="/location" class="back-btn">← Back to Theaters</a>
+
+    <h1>{{ theater.theater_name }}</h1>
+
+    {% for show, movie in showtimes %}
+
+    <div class="movie-card">
+
+        <div class="movie-info">
+
+            <h2>{{ movie.title }}</h2>
+
+            <p>Show Time: {{ show.show_time }}</p>
+
+            <p>Price: ₹{{ show.ticket_price }}</p>
+
+        </div>
+
+        <button
+            class="book-btn"
+            onclick="window.location.href='/seats/{{ show.id }}'">
+
+            Book Now
+
+        </button>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+</body>
+</html>
+

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ city.city_name }} - MovieBooking</title>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #080b10;
+            color: white;
+            min-height: 100vh;
+        }
+
+        header {
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+            background: #0d1118;
+            border-bottom: 1px solid #202733;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+            color: #ff3b3f;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #dce2e9;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back-btn:hover {
+            color: white;
+        }
+
+        .hero {
+            padding: 55px 6% 35px;
+            background:
+                radial-gradient(
+                    circle at top right,
+                    rgba(255, 59, 63, 0.15),
+                    transparent 35%
+                );
+        }
+
+        .location-label {
+            color: #ff4b50;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            color: #9ca7b4;
+            font-size: 16px;
+        }
+
+        .container {
+            padding: 10px 6% 60px;
+        }
+
+        .section-title {
+            font-size: 23px;
+            margin-bottom: 22px;
+        }
+
+        .theater-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .theater-card {
+            background: #111720;
+            border: 1px solid #252e3a;
+            border-radius: 18px;
+            padding: 22px;
+            transition: 0.25s ease;
+        }
+
+        .theater-card:hover {
+            transform: translateY(-4px);
+            border-color: #ff3b3f;
+            box-shadow:
+                0 15px 40px rgba(0, 0, 0, 0.35);
+        }
+
+        .theater-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: rgba(255, 59, 63, 0.12);
+            color: #ff3b3f;
+            margin-bottom: 18px;
+        }
+
+        .theater-name {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .address {
+            color: #9ca7b4;
+            font-size: 14px;
+            line-height: 1.5;
+            min-height: 42px;
+        }
+
+        .select-btn {
+            width: 100%;
+            margin-top: 20px;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: #ff3b3f;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .select-btn:hover {
+            background: #e92e33;
+        }
+
+        .empty {
+            background: #111720;
+            border: 1px solid #252e3a;
+            border-radius: 16px;
+            padding: 30px;
+            color: #9ca7b4;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 32px;
+            }
+
+            header {
+                padding: 0 20px;
+            }
+
+            .hero,
+            .container {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        MovieBooking
+    </div>
+
+    <a href="/location" class="back-btn">
+        <i data-lucide="arrow-left"></i>
+        Change City
+    </a>
+
+</header>
+
+
+<section class="hero">
+
+    <div class="location-label">
+        Selected City
+    </div>
+
+    <h1>{{ city.city_name }}</h1>
+
+    <p class="subtitle">
+        Choose a theater to explore movies and showtimes.
+    </p>
+
+</section>
+
+
+<section class="container">
+
+    <h2 class="section-title">
+        Theaters in {{ city.city_name }}
+    </h2>
+
+
+    {% if theaters %}
+
+    <div class="theater-grid">
+
+        {% for theater in theaters %}
+
+        <div class="theater-card">
+
+            <div class="theater-icon">
+                <i data-lucide="building-2"></i>
+            </div>
+
+            <div class="theater-name">
+                {{ theater.theater_name }}
+            </div>
+
+            <div class="address">
+                {{ theater.address or "Address not available" }}
+            </div>
+
+            <button
+                class="select-btn"
+                onclick="window.location.href='/theater/{{ theater.id }}'">
+
+                View Movies & Showtimes
+
+            </button>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="empty">
+        No theaters are currently available in this city.
+    </div>
+
+    {% endif %}
+
+</section>
+
+
+<script>
+    lucide.createIcons();
+</script>
+
+</body>
+</html>

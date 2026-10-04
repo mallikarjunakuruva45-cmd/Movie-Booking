@@ -1,0 +1,47 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Panel</title>
+</head>
+<body>
+
+<h1>Admin Dashboard</h1>
+
+<a href="/add_movie">
+    Add New Movie
+</a>
+
+<hr>
+
+<table border="1">
+
+<tr>
+    <th>ID</th>
+    <th>Movie</th>
+    <th>Genre</th>
+    <th>Action</th>
+</tr>
+
+{% for movie in movies %}
+
+<tr>
+
+<td>{{ movie.id }}</td>
+<td>{{ movie.title }}</td>
+<td>{{ movie.genre }}</td>
+
+<td>
+    <a href="/delete_movie/{{ movie.id }}">
+        Delete
+    </a>
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</body>
+</html>

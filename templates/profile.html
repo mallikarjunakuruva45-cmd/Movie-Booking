@@ -1,0 +1,543 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>My Profile - MovieBooking</title>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at 50% -20%,
+                    #101b2c 0%,
+                    #050a12 45%,
+                    #02060b 100%
+                );
+
+            color: white;
+        }
+
+
+        /* HEADER */
+
+        .header {
+
+            height: 82px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 35px;
+
+            background: #02060c;
+
+            border-bottom: 1px solid #1d2530;
+        }
+
+
+        .logo {
+
+            font-size: 29px;
+
+            font-weight: 800;
+        }
+
+
+        .logo-white {
+            color: white;
+        }
+
+
+        .logo-red {
+            color: #ff3535;
+        }
+
+
+        .back {
+
+            color: #ccc;
+
+            text-decoration: none;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            font-size: 15px;
+        }
+
+
+        .back:hover {
+            color: #ff3535;
+        }
+
+
+        /* PROFILE CARD */
+
+        .container {
+
+            width: 650px;
+
+            max-width: calc(100% - 30px);
+
+            margin: 60px auto;
+        }
+
+
+        .profile-card {
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #111a25,
+                    #080e16
+                );
+
+            border: 1px solid #293440;
+
+            border-radius: 18px;
+
+            padding: 40px;
+
+            box-shadow:
+                0 25px 60px rgba(0,0,0,0.45);
+        }
+
+
+        .profile-top {
+
+            text-align: center;
+
+            padding-bottom: 30px;
+
+            border-bottom: 1px solid #293440;
+        }
+
+
+        .big-profile {
+
+            width: 90px;
+            height: 90px;
+
+            margin: auto;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #171f2a;
+
+            border: 2px solid #ff3538;
+
+            color: #ff3538;
+        }
+
+
+        .big-profile svg {
+
+            width: 48px;
+            height: 48px;
+        }
+
+
+        .profile-top h1 {
+
+            margin-top: 18px;
+
+            font-size: 28px;
+        }
+
+
+        .profile-top p {
+
+            margin-top: 7px;
+
+            color: #9ca5b0;
+        }
+
+
+        /* DETAILS */
+
+        .details {
+
+            margin-top: 30px;
+        }
+
+
+        .detail {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 16px;
+
+            padding: 18px;
+
+            margin-bottom: 12px;
+
+            background: #0c131c;
+
+            border: 1px solid #202b37;
+
+            border-radius: 10px;
+        }
+
+
+        .detail-icon {
+
+            width: 42px;
+            height: 42px;
+
+            border-radius: 10px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #171e28;
+
+            color: #ff3538;
+        }
+
+
+        .detail-icon svg {
+
+            width: 21px;
+            height: 21px;
+        }
+
+
+        .detail-text small {
+
+            display: block;
+
+            color: #7f8995;
+
+            font-size: 12px;
+
+            margin-bottom: 4px;
+        }
+
+
+        .detail-text strong {
+
+            font-size: 16px;
+
+            color: #f1f3f5;
+        }
+
+
+        /* ACTIONS */
+
+        .actions {
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 12px;
+
+            margin-top: 25px;
+        }
+
+
+        .action {
+
+            height: 48px;
+
+            border-radius: 9px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 8px;
+
+            text-decoration: none;
+
+            font-weight: 700;
+
+            color: white;
+
+            background: #ed3033;
+
+            transition: 0.2s;
+        }
+
+
+        .action:hover {
+
+            background: #c92529;
+
+            transform: translateY(-1px);
+        }
+
+
+        .action.secondary {
+
+            background: #17202b;
+
+            border: 1px solid #303b48;
+        }
+
+
+        .action.secondary:hover {
+
+            background: #202b37;
+        }
+
+
+        .logout {
+
+            width: 100%;
+
+            margin-top: 12px;
+
+            background: transparent;
+
+            border: 1px solid #633034;
+
+            color: #ff6868;
+        }
+
+
+        .logout:hover {
+
+            background: #35171a;
+
+            border-color: #ff3538;
+        }
+
+
+        @media(max-width:600px) {
+
+            .header {
+                padding: 0 18px;
+            }
+
+            .container {
+                margin-top: 30px;
+            }
+
+            .profile-card {
+                padding: 25px;
+            }
+
+            .actions {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header class="header">
+
+    <div class="logo">
+
+        <span class="logo-white">
+            Movie
+        </span>
+
+        <span class="logo-red">
+            Booking
+        </span>
+
+    </div>
+
+
+    <a
+        href="/location"
+        class="back">
+
+        <i data-lucide="arrow-left"></i>
+
+        Back to Home
+
+    </a>
+
+</header>
+
+
+<div class="container">
+
+
+    <div class="profile-card">
+
+
+        <div class="profile-top">
+
+            <div class="big-profile">
+
+                <i data-lucide="user-round"></i>
+
+            </div>
+
+
+            <h1>
+                {{ user.fullname }}
+            </h1>
+
+
+            <p>
+                MovieBooking Account
+            </p>
+
+        </div>
+
+
+        <div class="details">
+
+
+            <div class="detail">
+
+                <div class="detail-icon">
+
+                    <i data-lucide="user"></i>
+
+                </div>
+
+
+                <div class="detail-text">
+
+                    <small>
+                        Full Name
+                    </small>
+
+                    <strong>
+                        {{ user.fullname }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="detail">
+
+                <div class="detail-icon">
+
+                    <i data-lucide="phone"></i>
+
+                </div>
+
+
+                <div class="detail-text">
+
+                    <small>
+                        Mobile Number
+                    </small>
+
+                    <strong>
+                        +91 {{ user.mobile }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="actions">
+
+
+            <a
+                href="/mybookings"
+                class="action">
+
+                <i data-lucide="ticket"></i>
+
+                My Bookings
+
+            </a>
+
+
+            <a
+                href="/location"
+                class="action secondary">
+
+                <i data-lucide="home"></i>
+
+                Home
+
+            </a>
+
+
+        </div>
+
+
+        <a
+            href="/logout"
+            class="action logout">
+
+            <i data-lucide="log-out"></i>
+
+            Logout
+
+        </a>
+
+
+    </div>
+
+</div>
+
+
+<script>
+
+    lucide.createIcons();
+
+</script>
+
+
+</body>
+
+</html>
+

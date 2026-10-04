@@ -1,0 +1,783 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Movie Booking - Login</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #111827,
+                    #000000
+                );
+
+            min-height: 100vh;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: white;
+        }
+
+
+        .login-container {
+
+            width: 90%;
+
+            max-width: 420px;
+
+            background: #1f2937;
+
+            padding: 35px 25px;
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 15px 40px
+                rgba(0, 0, 0, 0.5);
+
+            text-align: center;
+        }
+
+
+        .logo {
+
+            font-size: 42px;
+
+            margin-bottom: 5px;
+        }
+
+
+        h1 {
+
+            margin: 5px 0;
+
+            font-size: 30px;
+        }
+
+
+        .subtitle {
+
+            color: #9ca3af;
+
+            margin-bottom: 30px;
+        }
+
+
+        .phone-box {
+
+            display: flex;
+
+            background: #111827;
+
+            border: 1px solid #374151;
+
+            border-radius: 10px;
+
+            overflow: hidden;
+
+            margin-bottom: 20px;
+        }
+
+
+        .country-code {
+
+            padding: 15px;
+
+            color: white;
+
+            background: #374151;
+
+            font-weight: bold;
+        }
+
+
+        #mobile {
+
+            flex: 1;
+
+            border: none;
+
+            outline: none;
+
+            background: transparent;
+
+            color: white;
+
+            padding: 15px;
+
+            font-size: 17px;
+        }
+
+
+        #mobile::placeholder {
+
+            color: #6b7280;
+        }
+
+
+        #sendOtpBtn {
+
+            width: 100%;
+
+            padding: 15px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background: #e50914;
+
+            color: white;
+
+            font-size: 18px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+
+        #sendOtpBtn:hover {
+
+            background: #b20710;
+        }
+
+
+        #sendOtpBtn:disabled {
+
+            background: #555;
+
+            cursor: not-allowed;
+        }
+
+
+        #message {
+
+            margin-top: 15px;
+
+            font-size: 14px;
+
+            min-height: 20px;
+
+            color: #fca5a5;
+        }
+
+
+        .terms {
+
+            color: #9ca3af;
+
+            font-size: 12px;
+
+            margin-top: 20px;
+
+            line-height: 1.5;
+        }
+
+
+        #recaptcha-container {
+
+            margin-top: 10px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="login-container">
+
+
+    <div class="logo">
+        🎬
+    </div>
+
+
+    <h1>
+        Movie Booking
+    </h1>
+
+
+    <div class="subtitle">
+        Login with your mobile number
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- MOBILE NUMBER -->
+    <!-- ========================= -->
+
+    <div class="phone-box">
+
+        <div class="country-code">
+            +91
+        </div>
+
+
+        <input
+            type="tel"
+            id="mobile"
+            maxlength="10"
+            placeholder="Enter mobile number"
+            autocomplete="tel"
+        >
+
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- SEND OTP BUTTON -->
+    <!-- ========================= -->
+
+    <button
+        id="sendOtpBtn"
+        type="button">
+
+        Continue
+
+    </button>
+
+
+    <!-- ========================= -->
+    <!-- MESSAGE -->
+    <!-- ========================= -->
+
+    <div id="message"></div>
+
+
+    <div class="terms">
+
+        By continuing, you agree to our
+        Terms & Conditions
+        and Privacy Policy.
+
+    </div>
+
+
+</div>
+
+
+<!-- MSG91 CAPTCHA CONTAINER -->
+
+<div id="recaptcha-container"></div>
+
+
+
+<!-- ================================================= -->
+<!-- MSG91 CONFIGURATION -->
+<!-- ================================================= -->
+
+<script>
+
+var configuration = {
+
+    /*
+    ================================================
+    MSG91 WIDGET ID
+    ================================================
+    */
+
+    widgetId:
+        "366870685869303438353533",
+
+
+    /*
+    ================================================
+    IMPORTANT:
+    PUT YOUR NEW MSG91 TOKEN AUTH HERE
+    ================================================
+    */
+
+    tokenAuth:
+        "YOUR_NEW_TOKEN_AUTH",
+
+
+    /*
+    ================================================
+    IDENTIFIER
+    ================================================
+    */
+
+    identifier: "",
+
+
+    /*
+    ================================================
+    EXPOSE METHODS
+    ================================================
+    */
+
+    exposeMethods: true,
+
+
+    /*
+    ================================================
+    SUCCESS CALLBACK
+    ================================================
+    */
+
+    success: function(data) {
+
+        console.log(
+            "MSG91 SUCCESS:",
+            data
+        );
+
+    },
+
+
+    /*
+    ================================================
+    FAILURE CALLBACK
+    ================================================
+    */
+
+    failure: function(error) {
+
+        console.error(
+            "MSG91 FAILURE:",
+            error
+        );
+
+    }
+
+};
+
+</script>
+
+
+
+<!-- ================================================= -->
+<!-- MSG91 OTP SCRIPT -->
+<!-- ================================================= -->
+
+<script
+    type="text/javascript"
+    src="https://verify.msg91.com/otp-provider.js"
+    onload="initSendOTP(configuration)">
+
+</script>
+
+
+
+<!-- ================================================= -->
+<!-- LOGIN JAVASCRIPT -->
+<!-- ================================================= -->
+
+<script>
+
+
+/*
+=====================================================
+GET HTML ELEMENTS
+=====================================================
+*/
+
+const mobileInput =
+    document.getElementById("mobile");
+
+
+const sendButton =
+    document.getElementById("sendOtpBtn");
+
+
+const message =
+    document.getElementById("message");
+
+
+
+/*
+=====================================================
+SHOW MESSAGE
+=====================================================
+*/
+
+function showMessage(text) {
+
+    message.innerText = text;
+
+}
+
+
+
+/*
+=====================================================
+SEND OTP BUTTON
+=====================================================
+*/
+
+sendButton.addEventListener(
+    "click",
+    function() {
+
+
+        /*
+        =============================================
+        GET MOBILE NUMBER
+        =============================================
+        */
+
+        const mobile =
+            mobileInput.value.trim();
+
+
+        console.log(
+            "Mobile entered:",
+            mobile
+        );
+
+
+
+        /*
+        =============================================
+        CHECK MOBILE NUMBER
+        =============================================
+        */
+
+        if (
+            !/^[6-9][0-9]{9}$/.test(mobile)
+        ) {
+
+            showMessage(
+                "Please enter a valid 10-digit Indian mobile number."
+            );
+
+            return;
+
+        }
+
+
+
+        /*
+        =============================================
+        CHECK MSG91
+        =============================================
+        */
+
+        if (
+            typeof window.sendOtp !== "function"
+        ) {
+
+            console.error(
+                "MSG91 sendOtp() is not available."
+            );
+
+            showMessage(
+                "MSG91 is still loading. Please wait and try again."
+            );
+
+            return;
+
+        }
+
+
+
+        /*
+        =============================================
+        DISABLE BUTTON
+        =============================================
+        */
+
+        sendButton.disabled = true;
+
+        sendButton.innerText =
+            "Sending OTP...";
+
+        message.innerText = "";
+
+
+
+        /*
+        =============================================
+        CREATE IDENTIFIER
+        =============================================
+        */
+
+        const identifier =
+            "91" + mobile;
+
+
+        console.log(
+            "Sending OTP to:",
+            identifier
+        );
+
+
+
+        /*
+        =============================================
+        SEND OTP USING MSG91
+        =============================================
+        */
+
+        window.sendOtp(
+
+            identifier,
+
+
+            /*
+            =========================================
+            SUCCESS CALLBACK
+            =========================================
+            */
+
+            function(data) {
+
+
+                console.log(
+                    "================================"
+                );
+
+                console.log(
+                    "OTP SENT SUCCESSFULLY"
+                );
+
+                console.log(
+                    "MSG91 RESPONSE:",
+                    data
+                );
+
+                console.log(
+                    "RESPONSE TYPE:",
+                    typeof data
+                );
+
+                console.log(
+                    "RESPONSE KEYS:",
+                    data
+                        ? Object.keys(data)
+                        : []
+                );
+
+                console.log(
+                    "================================"
+                );
+
+
+
+                /*
+                =====================================
+                CHECK RESPONSE
+                =====================================
+                */
+
+                if (!data) {
+
+                    console.error(
+                        "MSG91 returned empty response."
+                    );
+
+                    sendButton.disabled = false;
+
+                    sendButton.innerText =
+                        "Continue";
+
+                    showMessage(
+                        "OTP request failed. Empty response received."
+                    );
+
+                    return;
+
+                }
+
+
+
+                /*
+                =====================================
+                SAVE MOBILE
+                =====================================
+                */
+
+                sessionStorage.setItem(
+                    "login_mobile",
+                    mobile
+                );
+
+
+                console.log(
+                    "Saved mobile:",
+                    mobile
+                );
+
+
+
+                /*
+                =====================================
+                GET REQUEST ID
+                =====================================
+                */
+
+                let reqId = null;
+
+
+                if (
+                    typeof data === "object"
+                ) {
+
+                    reqId =
+                        data.reqId ||
+                        data.req_id ||
+                        data.requestId ||
+                        data.request_id ||
+                        null;
+
+                }
+
+
+
+                /*
+                =====================================
+                CHECK REQUEST ID
+                =====================================
+                */
+
+                if (!reqId) {
+
+                    console.warn(
+                        "MSG91 response did not contain reqId:",
+                        data
+                    );
+
+
+                    /*
+                    ---------------------------------
+                    IMPORTANT
+                    ---------------------------------
+                    We still go to OTP page because
+                    the MSG91 widget may manage the
+                    verification request internally.
+                    */
+
+                    sessionStorage.removeItem(
+                        "msg91_req_id"
+                    );
+
+                }
+                else {
+
+                    sessionStorage.setItem(
+                        "msg91_req_id",
+                        reqId
+                    );
+
+
+                    console.log(
+                        "Saved MSG91 reqId:",
+                        reqId
+                    );
+
+                }
+
+
+
+                /*
+                =====================================
+                GO TO OTP PAGE
+                =====================================
+                */
+
+                window.location.href =
+                    "/verify_otp";
+
+
+            },
+
+
+            /*
+            =========================================
+            FAILURE CALLBACK
+            =========================================
+            */
+
+            function(error) {
+
+
+                console.error(
+                    "================================"
+                );
+
+                console.error(
+                    "MSG91 SEND OTP ERROR:",
+                    error
+                );
+
+                console.error(
+                    "================================"
+                );
+
+
+                sendButton.disabled = false;
+
+                sendButton.innerText =
+                    "Continue";
+
+
+                showMessage(
+                    "Could not send OTP. Please try again."
+                );
+
+            }
+
+        );
+
+    }
+
+);
+
+
+
+/*
+=====================================================
+ALLOW ENTER KEY
+=====================================================
+*/
+
+mobileInput.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Enter") {
+
+            sendButton.click();
+
+        }
+
+    }
+);
+
+
+</script>
+
+
+</body>
+
+</html>
+

@@ -1,0 +1,2190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MovieBooking - Select Location</title>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background:
+                radial-gradient(
+                    circle at 50% -20%,
+                    #101b2c 0%,
+                    #050a12 45%,
+                    #02060b 100%
+                );
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        button,
+        input {
+            font-family: inherit;
+        }
+
+        /* =========================================================
+           HEADER
+        ========================================================= */
+
+        .header {
+            height: 82px;
+            width: 100%;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 28px;
+
+            background: rgba(2, 6, 12, 0.96);
+
+            border-bottom: 1px solid #1d2530;
+
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+
+        /* LOGO */
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            min-width: 270px;
+        }
+
+        .logo-icon {
+            width: 43px;
+            height: 43px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 6px;
+
+            background: linear-gradient(
+                145deg,
+                #ff3d3d,
+                #c91e29
+            );
+
+            box-shadow:
+                0 6px 20px rgba(255, 40, 40, 0.25);
+        }
+
+        .logo-icon svg {
+            width: 25px;
+            height: 25px;
+            color: white;
+            stroke-width: 2;
+        }
+
+        .logo {
+            font-size: 29px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .logo-white {
+            color: #ffffff;
+        }
+
+        .logo-red {
+            color: #ff3535;
+        }
+
+
+        /* NAVIGATION */
+
+        .navigation {
+            height: 100%;
+
+            display: flex;
+            align-items: center;
+
+            gap: 34px;
+        }
+
+        .navigation a {
+            height: 100%;
+
+            position: relative;
+
+            display: flex;
+            align-items: center;
+
+            gap: 9px;
+
+            color: #c4c8ce;
+
+            text-decoration: none;
+
+            font-size: 17px;
+
+            transition: all 0.25s ease;
+        }
+
+        .navigation a svg {
+            width: 23px;
+            height: 23px;
+
+            stroke-width: 1.8;
+        }
+
+        .navigation a:hover {
+            color: #ffffff;
+        }
+
+        .navigation a.active {
+            color: #ffffff;
+        }
+
+        .navigation a.active::after {
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            height: 3px;
+
+            background: #ff3030;
+
+            border-radius: 5px 5px 0 0;
+        }
+
+
+        /* HEADER RIGHT */
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .location-button {
+            height: 44px;
+
+            padding: 0 22px;
+
+            border: none;
+            border-radius: 8px;
+
+            background: #f52f32;
+
+            color: white;
+
+            font-size: 14px;
+            font-weight: 700;
+
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 6px 22px rgba(255, 42, 42, 0.18);
+
+            transition: 0.25s ease;
+        }
+
+        .location-button svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .location-button:hover {
+            background: #d92529;
+            transform: translateY(-1px);
+        }
+
+        .profile-divider {
+            width: 1px;
+            height: 40px;
+            background: #303640;
+            margin-left: 2px;
+        }
+
+        .profile-icon {
+            width: 42px;
+            height: 42px;
+
+            border: 1.7px solid #bfc3ca;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-icon svg {
+            width: 29px;
+            height: 29px;
+            stroke-width: 1.5;
+        }
+
+        .profile-arrow {
+            color: #ddd;
+        }
+        
+
+
+        
+
+
+/* =========================================================
+   PROFILE DROPDOWN
+========================================================= */
+
+.profile-wrapper {
+    position: relative;
+}
+
+.profile-button {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0;
+}
+
+.profile-button:hover .profile-icon {
+    border-color: #ff3437;
+}
+
+.profile-button .profile-icon {
+    width: 42px;
+    height: 42px;
+    border: 1.7px solid #bfc3ca;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-button .profile-icon svg {
+    width: 29px;
+    height: 29px;
+}
+
+.profile-button .profile-arrow {
+    width: 18px;
+    height: 18px;
+    transition: transform 0.25s;
+}
+
+.profile-button.open .profile-arrow {
+    transform: rotate(180deg);
+}
+
+.profile-menu {
+    position: absolute;
+    top: 55px;
+    right: 0;
+    width: 205px;
+
+    background: #101721;
+    border: 1px solid #293440;
+    border-radius: 12px;
+
+    padding: 8px;
+
+    box-shadow: 0 18px 40px rgba(0,0,0,0.55);
+
+    display: none;
+    z-index: 2000;
+}
+
+.profile-menu.show {
+    display: block;
+}
+
+.profile-menu a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 12px 13px;
+
+    border-radius: 8px;
+
+    color: #e8ebef;
+    text-decoration: none;
+
+    font-size: 14px;
+}
+
+.profile-menu a:hover {
+    background: #1b2531;
+}
+
+.profile-menu a svg {
+    width: 18px;
+    height: 18px;
+    color: #ff3538;
+}
+
+.menu-divider {
+    height: 1px;
+    background: #293440;
+    margin: 5px 4px;
+}
+
+
+
+
+        /* =========================================================
+           HERO
+        ========================================================= */
+
+        .hero {
+            position: relative;
+
+            width: calc(100% - 56px);
+            height: 325px;
+
+            margin: 24px 28px 0;
+
+            border-radius: 17px;
+
+            overflow: hidden;
+
+            border: 1px solid #27303b;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(1, 8, 16, 0.92) 0%,
+                    rgba(2, 10, 20, 0.70) 38%,
+                    rgba(10, 3, 9, 0.58) 65%,
+                    rgba(35, 4, 10, 0.86) 100%
+                ),
+                radial-gradient(
+                    circle at 85% 50%,
+                    #4d0b14,
+                    #090e17 48%,
+                    #020912 100%
+                );
+        }
+
+        /*
+           CINEMA BACKGROUND GLOW
+        */
+
+        .hero::before {
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            background:
+                radial-gradient(
+                    ellipse at 88% 20%,
+                    rgba(160, 18, 31, 0.28),
+                    transparent 45%
+                ),
+                radial-gradient(
+                    ellipse at 15% 70%,
+                    rgba(0, 55, 90, 0.22),
+                    transparent 45%
+                );
+
+            pointer-events: none;
+        }
+
+
+        /* LEFT CINEMA DECOR */
+
+        .popcorn-decoration {
+            position: absolute;
+
+            left: 48px;
+            bottom: 3px;
+
+            width: 260px;
+            height: 260px;
+
+            z-index: 1;
+        }
+
+        .popcorn-cup {
+            position: absolute;
+
+            left: 58px;
+            bottom: 0;
+
+            width: 118px;
+            height: 170px;
+
+            border-radius: 12px 12px 25px 25px;
+
+            background:
+                repeating-linear-gradient(
+                    90deg,
+                    #b91620 0px,
+                    #b91620 19px,
+                    #f4e8d4 19px,
+                    #f4e8d4 38px
+                );
+
+            transform: perspective(300px) rotateX(-4deg);
+
+            box-shadow:
+                0 15px 30px rgba(0,0,0,0.55);
+        }
+
+        .popcorn-cup::before {
+            content: "";
+
+            position: absolute;
+
+            top: -37px;
+            left: 8px;
+
+            width: 102px;
+            height: 70px;
+
+            background:
+                radial-gradient(
+                    circle at 15px 30px,
+                    #fff3dc 0 18px,
+                    transparent 19px
+                ),
+                radial-gradient(
+                    circle at 48px 18px,
+                    #fff1d5 0 20px,
+                    transparent 21px
+                ),
+                radial-gradient(
+                    circle at 80px 28px,
+                    #fff5df 0 19px,
+                    transparent 20px
+                ),
+                radial-gradient(
+                    circle at 35px 45px,
+                    #f5e2c2 0 18px,
+                    transparent 19px
+                ),
+                radial-gradient(
+                    circle at 68px 48px,
+                    #ffeace 0 20px,
+                    transparent 21px
+                );
+
+            border-radius: 50%;
+        }
+
+        .film-reel {
+            position: absolute;
+
+            left: 0;
+            bottom: 5px;
+
+            width: 135px;
+            height: 135px;
+
+            border-radius: 50%;
+
+            border: 18px solid rgba(35, 42, 51, 0.95);
+
+            box-shadow:
+                inset 0 0 0 5px #0c1117,
+                0 12px 25px rgba(0,0,0,0.55);
+        }
+
+        .film-reel::before {
+            content: "";
+
+            position: absolute;
+
+            inset: 27px;
+
+            border: 12px solid #111820;
+
+            border-radius: 50%;
+        }
+
+        .film-reel::after {
+            content: "";
+
+            position: absolute;
+
+            left: 50%;
+            top: 50%;
+
+            transform: translate(-50%, -50%);
+
+            width: 22px;
+            height: 22px;
+
+            border-radius: 50%;
+
+            background: #060a0f;
+        }
+
+
+        /* RIGHT THEATER SEATS */
+
+        .theater-seat {
+            position: absolute;
+
+            right: 18px;
+            bottom: -45px;
+
+            width: 150px;
+            height: 205px;
+
+            background: linear-gradient(
+                160deg,
+                #244052,
+                #122b3c
+            );
+
+            border-radius: 17px 17px 10px 10px;
+
+            transform: perspective(400px) rotateY(-7deg);
+
+            opacity: 0.9;
+
+            box-shadow:
+                -15px 12px 35px rgba(0,0,0,0.5);
+        }
+
+        .theater-seat::before {
+            content: "";
+
+            position: absolute;
+
+            top: 80px;
+            left: -17px;
+
+            width: 185px;
+            height: 30px;
+
+            border-radius: 20px;
+
+            background: #4a3b43;
+        }
+
+        .theater-seat::after {
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: 35px;
+
+            width: 85px;
+            height: 110px;
+
+            background: #31566b;
+
+            border-radius: 16px 16px 8px 8px;
+        }
+
+
+        /* HERO CONTENT */
+
+        .hero-content {
+            position: relative;
+
+            z-index: 5;
+
+            width: 800px;
+
+            max-width: 90%;
+
+            margin: 0 auto;
+
+            padding-top: 25px;
+
+            text-align: center;
+        }
+
+        .hero-star {
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 16px;
+
+            color: #ff3838;
+
+            font-size: 24px;
+
+            margin-bottom: 13px;
+        }
+
+        .hero-star::before,
+        .hero-star::after {
+            content: "";
+
+            width: 34px;
+            height: 2px;
+
+            background: #ff3838;
+        }
+
+        .hero-title {
+            font-size: 58px;
+
+            line-height: 1.05;
+
+            font-weight: 800;
+
+            letter-spacing: -1.5px;
+
+            margin-bottom: 13px;
+        }
+
+        .hero-title span {
+            color: #ff3437;
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+
+            color: #eeeeee;
+
+            margin-bottom: 19px;
+        }
+
+
+        /* =========================================================
+           SEARCH
+        ========================================================= */
+
+        .search-container {
+            width: 720px;
+
+            max-width: 100%;
+
+            height: 68px;
+
+            margin: auto;
+
+            background: #ffffff;
+
+            border-radius: 36px;
+
+            display: flex;
+
+            align-items: center;
+
+            padding: 6px;
+
+            box-shadow:
+                0 12px 35px rgba(0,0,0,0.35);
+        }
+
+        .search-icon {
+            width: 27px;
+            height: 27px;
+
+            color: #151b24;
+
+            margin-left: 22px;
+
+            flex-shrink: 0;
+        }
+
+        .search-input {
+            flex: 1;
+
+            height: 100%;
+
+            border: none;
+
+            outline: none;
+
+            background: transparent;
+
+            color: #222;
+
+            font-size: 18px;
+
+            padding: 0 18px;
+        }
+
+        .search-input::placeholder {
+            color: #68707d;
+        }
+
+        .search-button {
+            height: 56px;
+
+            padding: 0 29px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background: #ed3033;
+
+            color: white;
+
+            font-size: 17px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.25s;
+        }
+
+        .search-button:hover {
+            background: #d42427;
+        }
+
+
+        /* QUICK BUTTONS */
+
+        .quick-buttons {
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 14px;
+
+            margin-top: 16px;
+        }
+
+        .quick-button {
+            height: 44px;
+
+            padding: 0 18px;
+
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            border-radius: 10px;
+
+            border: 1px solid #28323d;
+
+            background: rgba(7, 13, 21, 0.9);
+
+            color: #ffffff;
+
+            font-size: 15px;
+
+            cursor: pointer;
+
+            transition: 0.25s;
+        }
+
+        .quick-button svg {
+            width: 19px;
+            height: 19px;
+        }
+
+        .quick-button:hover {
+            background: #ef3033;
+
+            border-color: #ef3033;
+        }
+
+
+        /* =========================================================
+           POPULAR CITIES
+        ========================================================= */
+
+        .cities-section {
+            padding: 30px 28px 0;
+        }
+
+        .section-header {
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 19px;
+        }
+
+        .section-heading {
+            display: flex;
+
+            align-items: center;
+
+            gap: 16px;
+        }
+
+        .section-red-bar {
+            width: 6px;
+            height: 27px;
+
+            background: #ff3336;
+
+            border-radius: 5px;
+        }
+
+        .section-heading h2 {
+            font-size: 28px;
+
+            font-weight: 800;
+        }
+
+        .view-all {
+            color: #ff3538;
+
+            text-decoration: none;
+
+            font-size: 17px;
+
+            transition: 0.2s;
+        }
+
+        .view-all:hover {
+            color: white;
+        }
+
+
+        /* CITY GRID */
+
+        .city-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 16px;
+        }
+
+        .city-card {
+            height: 282px;
+
+            position: relative;
+
+            overflow: hidden;
+
+            border-radius: 14px;
+
+            border: 1px solid #2a333f;
+
+            background-color: #111923;
+
+            background-size: cover;
+
+            background-position: center;
+
+            cursor: pointer;
+
+            transition: 0.3s ease;
+        }
+
+        .city-card:hover {
+            transform: translateY(-5px);
+
+            border-color: #ff3437;
+
+            box-shadow:
+                0 15px 35px rgba(0,0,0,0.45);
+        }
+
+        /*
+           CITY IMAGES
+        */
+
+        .hyderabad {
+            background-image:
+                linear-gradient(
+                    to bottom,
+                    rgba(0,0,0,0.02) 30%,
+                    rgba(0,0,0,0.88) 100%
+                ),
+                url("https://images.unsplash.com/photo-1572449043416-55f4685c9bb7?auto=format&fit=crop&w=1000&q=85");
+        }
+
+        .bengaluru {
+            background-image:
+                linear-gradient(
+                    to bottom,
+                    rgba(0,0,0,0.02) 30%,
+                    rgba(0,0,0,0.90) 100%
+                ),
+                url("https://images.unsplash.com/photo-1596176530529-78163a4f7af2?auto=format&fit=crop&w=1000&q=85");
+        }
+
+        .chennai {
+            background-image:
+                linear-gradient(
+                    to bottom,
+                    rgba(0,0,0,0.02) 25%,
+                    rgba(0,0,0,0.92) 100%
+                ),
+                url("https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=1000&q=85");
+        }
+
+        .mumbai {
+            background-image:
+                linear-gradient(
+                    to bottom,
+                    rgba(0,0,0,0.02) 25%,
+                    rgba(0,0,0,0.92) 100%
+                ),
+                url("https://images.unsplash.com/photo-1567157577867-05ccb1388e66?auto=format&fit=crop&w=1000&q=85");
+        }
+
+
+        /* POPULAR BADGE */
+
+        .popular-badge {
+            position: absolute;
+
+            top: 16px;
+            left: 17px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            padding: 7px 12px;
+
+            background: rgba(122, 25, 48, 0.90);
+
+            border-radius: 7px;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            backdrop-filter: blur(5px);
+        }
+
+        .popular-badge svg {
+            width: 14px;
+            height: 14px;
+        }
+
+
+        /* CITY INFORMATION */
+
+        .city-information {
+            position: absolute;
+
+            left: 18px;
+            right: 18px;
+            bottom: 18px;
+        }
+
+        .city-name {
+            font-size: 25px;
+
+            font-weight: 800;
+
+            margin-bottom: 4px;
+        }
+
+        .theater-count {
+            color: #eeeeee;
+
+            font-size: 16px;
+
+            margin-bottom: 10px;
+        }
+
+        .theater-button {
+            height: 38px;
+
+            padding: 0 15px;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            border: none;
+
+            border-radius: 6px;
+
+            background: #f02f32;
+
+            color: white;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.25s;
+        }
+
+        .theater-button svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .theater-button:hover {
+            background: #cf2528;
+        }
+
+
+        /* =========================================================
+           WHY BOOK WITH US
+        ========================================================= */
+
+        .why-section {
+            margin: 18px 28px 30px;
+
+            padding: 24px 20px;
+
+            border-radius: 14px;
+
+            border: 1px solid #202a35;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(10,18,27,0.96),
+                    rgba(5,10,16,0.96)
+                );
+        }
+
+        .why-heading {
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+
+            margin-bottom: 19px;
+        }
+
+        .why-heading h2 {
+            font-size: 26px;
+
+            font-weight: 800;
+        }
+
+        .features {
+            display: grid;
+
+            grid-template-columns:
+                repeat(5, 1fr);
+        }
+
+        .feature {
+            min-height: 78px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            padding: 0 20px;
+
+            border-right: 1px solid #202a34;
+        }
+
+        .feature:last-child {
+            border-right: none;
+        }
+
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+
+            min-width: 64px;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #171d25;
+
+            border: 1px solid #292f38;
+
+            color: #ff3639;
+        }
+
+        .feature-icon svg {
+            width: 32px;
+            height: 32px;
+
+            stroke-width: 1.7;
+        }
+
+        .feature-text h3 {
+            font-size: 17px;
+
+            margin-bottom: 6px;
+        }
+
+        .feature-text p {
+            color: #aeb2b8;
+
+            font-size: 14px;
+
+            line-height: 1.45;
+        }
+
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media (max-width: 1250px) {
+
+            .navigation {
+                gap: 20px;
+            }
+
+            .navigation a {
+                font-size: 14px;
+            }
+
+            .navigation a svg {
+                width: 20px;
+            }
+
+            .logo-container {
+                min-width: 230px;
+            }
+
+            .logo {
+                font-size: 26px;
+            }
+
+            .features {
+                grid-template-columns:
+                    repeat(3, 1fr);
+            }
+
+            .feature {
+                border-right: none;
+                border-bottom: 1px solid #202a34;
+                padding: 15px;
+            }
+
+        }
+
+
+        @media (max-width: 950px) {
+
+            .navigation {
+                display: none;
+            }
+
+            .header {
+                padding: 0 18px;
+            }
+
+            .city-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .features {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .hero-title {
+                font-size: 48px;
+            }
+
+        }
+
+
+        @media (max-width: 650px) {
+
+            .header {
+                height: 70px;
+            }
+
+            .logo {
+                font-size: 22px;
+            }
+
+            .logo-icon {
+                width: 38px;
+                height: 38px;
+            }
+
+            .location-button {
+                padding: 0 12px;
+                font-size: 12px;
+            }
+
+            .profile-divider,
+            .profile-icon,
+            .profile-arrow {
+                display: none;
+            }
+
+            .hero {
+                width: calc(100% - 28px);
+                margin-left: 14px;
+
+                height: 370px;
+            }
+
+            .hero-title {
+                font-size: 38px;
+            }
+
+            .hero-subtitle {
+                font-size: 16px;
+            }
+
+            .search-container {
+                height: 60px;
+            }
+
+            .search-button {
+                height: 48px;
+                padding: 0 17px;
+            }
+
+            .search-input {
+                font-size: 15px;
+                padding: 0 8px;
+            }
+
+            .quick-buttons {
+                gap: 7px;
+            }
+
+            .quick-button {
+                padding: 0 11px;
+                font-size: 13px;
+            }
+
+            .cities-section {
+                padding-left: 14px;
+                padding-right: 14px;
+            }
+
+            .city-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .why-section {
+                margin-left: 14px;
+                margin-right: 14px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .feature {
+                border-bottom: 1px solid #202a34;
+            }
+
+            .feature:last-child {
+                border-bottom: none;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="header">
+
+    <!-- LOGO -->
+
+    <div class="logo-container">
+
+        <div class="logo-icon">
+
+            <i data-lucide="clapperboard"></i>
+
+        </div>
+
+        <div class="logo">
+            <span class="logo-white">Movie</span><span class="logo-red">Booking</span>
+        </div>
+
+    </div>
+
+
+    <!-- NAVIGATION -->
+
+    <nav class="navigation">
+
+        <a href="/" class="active">
+
+            <i data-lucide="house"></i>
+
+            <span>Home</span>
+
+        </a>
+
+
+        <a href="/movies">
+
+            <i data-lucide="disc-3"></i>
+
+            <span>Movies</span>
+
+        </a>
+
+
+        <a href="/location">
+
+            <i data-lucide="building-2"></i>
+
+            <span>Theaters</span>
+
+        </a>
+
+
+        <a href="#">
+
+            <i data-lucide="tag"></i>
+
+            <span>Offers</span>
+
+        </a>
+
+
+        <a href="/mybookings">
+
+            <i data-lucide="ticket"></i>
+
+            <span>My Bookings</span>
+
+        </a>
+
+    </nav>
+
+
+    <!-- RIGHT SIDE -->
+
+    <div class="header-right">
+
+        <button
+            class="location-button"
+            onclick="useCurrentLocation()">
+
+            <i data-lucide="map-pin"></i>
+
+            <span>Use Current Location</span>
+
+        </button>
+
+
+        <div class="profile-divider"></div>
+
+
+    
+
+<div class="profile-wrapper">
+
+    <button
+        class="profile-button"
+        onclick="toggleProfileMenu()"
+        type="button">
+
+        <div class="profile-icon">
+            <i data-lucide="user-round"></i>
+        </div>
+
+        <i
+            class="profile-arrow"
+            data-lucide="chevron-down">
+        </i>
+
+    </button>
+
+
+    <!-- PROFILE DROPDOWN -->
+    <div
+        id="profileMenu"
+        class="profile-menu">
+
+        <a href="/profile">
+            <i data-lucide="user-round"></i>
+            <span>My Profile</span>
+        </a>
+
+        <a href="/mybookings">
+            <i data-lucide="ticket"></i>
+            <span>My Bookings</span>
+        </a>
+
+        <div class="menu-divider"></div>
+
+        <a href="/logout" class="logout-link">
+            <i data-lucide="log-out"></i>
+            <span>Logout</span>
+        </a>
+
+    </div>
+
+</div>
+
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================================================
+     HERO
+========================================================= -->
+
+<section class="hero">
+
+
+    <!-- LEFT CINEMA DECOR -->
+
+    <div class="popcorn-decoration">
+
+        <div class="film-reel"></div>
+
+        <div class="popcorn-cup"></div>
+
+    </div>
+
+
+    <!-- RIGHT CINEMA SEAT -->
+
+    <div class="theater-seat"></div>
+
+
+    <!-- HERO CONTENT -->
+
+    <div class="hero-content">
+
+
+        <div class="hero-star">
+            ★
+        </div>
+
+
+        <h1 class="hero-title">
+            Book <span>Movie Tickets</span>
+        </h1>
+
+
+        <p class="hero-subtitle">
+            Discover movies, theaters and showtimes near you
+        </p>
+
+
+        <!-- SEARCH -->
+
+        <div class="search-container">
+
+            <i
+                class="search-icon"
+                data-lucide="search">
+            </i>
+
+
+            <input
+                type="text"
+                id="searchInput"
+                class="search-input"
+                placeholder="Search for city, theater or movie..."
+                autocomplete="off"
+            >
+
+
+            <button
+                class="search-button"
+                onclick="performSearch()">
+
+                Search
+
+            </button>
+
+        </div>
+
+
+        <!-- QUICK BUTTONS -->
+
+        <div class="quick-buttons">
+
+            <button
+                class="quick-button"
+                onclick="useCurrentLocation()">
+
+                <i data-lucide="map-pin"></i>
+
+                <span>Near Me</span>
+
+            </button>
+
+
+            <button
+                class="quick-button"
+                onclick="window.location.href='/movies'">
+
+                <i data-lucide="clapperboard"></i>
+
+                <span>Movies</span>
+
+            </button>
+
+
+            <button
+                class="quick-button"
+                onclick="window.location.href='/location'">
+
+                <i data-lucide="building-2"></i>
+
+                <span>Theaters</span>
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     POPULAR CITIES
+========================================================= -->
+
+<section class="cities-section">
+
+
+    <div class="section-header">
+
+        <div class="section-heading">
+
+            <div class="section-red-bar"></div>
+
+            <h2>
+                Popular Cities
+            </h2>
+
+        </div>
+
+
+        <a
+            href="/location"
+            class="view-all">
+
+            View All Cities →
+            
+        </a>
+
+    </div>
+
+
+    <div
+        class="city-grid"
+        id="cityGrid">
+
+
+        <!-- =================================================
+             HYDERABAD
+        ================================================== -->
+
+        <div
+            class="city-card hyderabad"
+            data-city="hyderabad">
+
+
+            <div class="popular-badge">
+
+                <i data-lucide="map-pin"></i>
+
+                <span>Popular</span>
+
+            </div>
+
+
+            <div class="city-information">
+
+                <h3 class="city-name">
+                    Hyderabad
+                </h3>
+
+                <div class="theater-count">
+                    312 Theaters
+                </div>
+
+
+                <button
+                    class="theater-button"
+                    onclick="window.location.href='/theaters/1'">
+
+                    <span>View Theaters</span>
+
+                    <i data-lucide="arrow-right"></i>
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             BENGALURU
+        ================================================== -->
+
+        <div
+            class="city-card bengaluru"
+            data-city="bengaluru">
+
+
+            <div class="popular-badge">
+
+                <i data-lucide="map-pin"></i>
+
+                <span>Popular</span>
+
+            </div>
+
+
+            <div class="city-information">
+
+                <h3 class="city-name">
+                    Bengaluru
+                </h3>
+
+                <div class="theater-count">
+                    284 Theaters
+                </div>
+
+
+                <button
+                    class="theater-button"
+                    onclick="window.location.href='/theaters/2'">
+
+                    <span>View Theaters</span>
+
+                    <i data-lucide="arrow-right"></i>
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             CHENNAI
+        ================================================== -->
+
+        <div
+            class="city-card chennai"
+            data-city="chennai">
+
+
+            <div class="popular-badge">
+
+                <i data-lucide="map-pin"></i>
+
+                <span>Popular</span>
+
+            </div>
+
+
+            <div class="city-information">
+
+                <h3 class="city-name">
+                    Chennai
+                </h3>
+
+                <div class="theater-count">
+                    298 Theaters
+                </div>
+
+
+                <button
+                    class="theater-button"
+                    onclick="window.location.href='/theaters/3'">
+
+                    <span>View Theaters</span>
+
+                    <i data-lucide="arrow-right"></i>
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             MUMBAI
+        ================================================== -->
+
+        <div
+            class="city-card mumbai"
+            data-city="mumbai">
+
+
+            <div class="popular-badge">
+
+                <i data-lucide="map-pin"></i>
+
+                <span>Popular</span>
+
+            </div>
+
+
+            <div class="city-information">
+
+                <h3 class="city-name">
+                    Mumbai
+                </h3>
+
+                <div class="theater-count">
+                    356 Theaters
+                </div>
+
+
+                <button
+                    class="theater-button"
+                    onclick="window.location.href='/theaters/4'">
+
+                    <span>View Theaters</span>
+
+                    <i data-lucide="arrow-right"></i>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     WHY BOOK WITH US
+========================================================= -->
+
+<section class="why-section">
+
+
+    <div class="why-heading">
+
+        <div class="section-red-bar"></div>
+
+        <h2>
+            Why Book With Us?
+        </h2>
+
+    </div>
+
+
+    <div class="features">
+
+
+        <!-- EASY BOOKING -->
+
+        <div class="feature">
+
+            <div class="feature-icon">
+
+                <i data-lucide="ticket-check"></i>
+
+            </div>
+
+
+            <div class="feature-text">
+
+                <h3>
+                    Easy Booking
+                </h3>
+
+                <p>
+                    Book tickets in just a few simple steps
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- BEST SEATS -->
+
+        <div class="feature">
+
+            <div class="feature-icon">
+
+                <i data-lucide="armchair"></i>
+
+            </div>
+
+
+            <div class="feature-text">
+
+                <h3>
+                    Best Seats
+                </h3>
+
+                <p>
+                    Choose your favorite seats easily
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- OFFERS -->
+
+        <div class="feature">
+
+            <div class="feature-icon">
+
+                <i data-lucide="badge-percent"></i>
+
+            </div>
+
+
+            <div class="feature-text">
+
+                <h3>
+                    Exciting Offers
+                </h3>
+
+                <p>
+                    Get exclusive deals and discounts
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- PAYMENTS -->
+
+        <div class="feature">
+
+            <div class="feature-icon">
+
+                <i data-lucide="shield-check"></i>
+
+            </div>
+
+
+            <div class="feature-text">
+
+                <h3>
+                    Secure Payments
+                </h3>
+
+                <p>
+                    100% secure and safe payment options
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- SUPPORT -->
+
+        <div class="feature">
+
+            <div class="feature-icon">
+
+                <i data-lucide="headphones"></i>
+
+            </div>
+
+
+            <div class="feature-text">
+
+                <h3>
+                    24/7 Support
+                </h3>
+
+                <p>
+                    We're here to help you anytime
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<script>
+
+    /* =========================================================
+       INITIALIZE ICONS
+    ========================================================= */
+
+    lucide.createIcons();
+
+
+
+    /* =========================================================
+       CURRENT LOCATION
+    ========================================================= */
+
+    function useCurrentLocation() {
+
+        if (!navigator.geolocation) {
+
+            alert(
+                "Location is not supported by your browser."
+            );
+
+            return;
+        }
+
+
+        navigator.geolocation.getCurrentPosition(
+
+            function(position) {
+
+                const lat =
+                    position.coords.latitude;
+
+                const lon =
+                    position.coords.longitude;
+
+
+                window.location.href =
+                    `/detect_location?lat=${lat}&lon=${lon}`;
+
+            },
+
+
+            function(error) {
+
+                if (
+                    error.code ===
+                    error.PERMISSION_DENIED
+                ) {
+
+                    alert(
+                        "Location permission was denied. Please allow location access."
+                    );
+
+                }
+                else {
+
+                    alert(
+                        "Unable to detect your location."
+                    );
+
+                }
+
+            },
+
+            {
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 0
+            }
+
+        );
+
+    }
+
+
+
+    /* =========================================================
+       SEARCH
+    ========================================================= */
+
+    function performSearch() {
+
+        const searchValue =
+            document
+                .getElementById("searchInput")
+                .value
+                .trim();
+
+
+        if (!searchValue) {
+
+            document
+                .getElementById("searchInput")
+                .focus();
+
+            return;
+        }
+
+
+        /*
+           Current city search.
+           This searches the four visible popular cities.
+        */
+
+        const cards =
+            document.querySelectorAll(".city-card");
+
+
+        let found = false;
+
+
+        cards.forEach(function(card) {
+
+            const city =
+                card
+                    .getAttribute("data-city")
+                    .toLowerCase();
+
+
+            if (
+                city.includes(
+                    searchValue.toLowerCase()
+                )
+            ) {
+
+                card.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+
+                found = true;
+
+            }
+
+        });
+
+
+        if (!found) {
+
+            alert(
+                `No popular city found for "${searchValue}".`
+            );
+
+        }
+
+    }
+
+
+
+    /* =========================================================
+       ENTER KEY SEARCH
+    ========================================================= */
+
+    document
+        .getElementById("searchInput")
+        .addEventListener(
+            "keydown",
+            function(event) {
+
+                if (event.key === "Enter") {
+
+                    performSearch();
+
+                }
+
+            }
+        );
+
+    
+// =========================================================
+// PROFILE DROPDOWN
+// =========================================================
+
+function toggleProfileMenu() {
+
+    const menu = document.getElementById("profileMenu");
+    const button = document.querySelector(".profile-button");
+
+    menu.classList.toggle("show");
+    button.classList.toggle("open");
+}
+
+
+// Close profile menu when clicking outside
+
+document.addEventListener("click", function(event) {
+
+    const wrapper =
+        document.querySelector(".profile-wrapper");
+
+    const menu =
+        document.getElementById("profileMenu");
+
+    const button =
+        document.querySelector(".profile-button");
+
+
+    if (
+        wrapper &&
+        !wrapper.contains(event.target)
+    ) {
+
+        menu.classList.remove("show");
+
+        button.classList.remove("open");
+
+    }
+
+});
+
+
+
+</script>
+
+
+</body>
+
+</html>

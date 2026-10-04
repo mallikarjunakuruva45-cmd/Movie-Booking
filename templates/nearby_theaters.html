@@ -1,0 +1,61 @@
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nearby Theaters</title>
+    <style>
+        body{
+            font-family:Arial;
+            background:#111;
+            color:white;
+            margin:0;
+            padding:20px;
+        }
+
+        .card{
+            background:#222;
+            padding:20px;
+            margin:15px 0;
+            border-radius:10px;
+        }
+
+        button{
+            padding:10px 20px;
+            background:#2ecc71;
+            color:white;
+            border:none;
+            border-radius:6px;
+            cursor:pointer;
+        }
+
+        .distance{
+            color:#00ff99;
+            font-weight:bold;
+        }
+    </style>
+</head>
+<body>
+
+<h1>📍 Nearby Theaters</h1>
+
+{% for item in nearby %}
+
+<div class="card">
+
+<h2>{{ item.theater.theater_name }}</h2>
+
+<p>{{ item.theater.address }}</p>
+
+<p class="distance">{{ item.distance }} km away</p>
+
+<button onclick="window.location.href='/theater_movies/{{ item.theater.id }}'">
+    View Movies
+</button>
+
+</div>
+
+{% endfor %}
+
+</body>
+</html>
+```
