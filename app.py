@@ -820,8 +820,60 @@ def logout():
 
 
 
+import json
+from datetime import datetime
+
 with app.app_context():
     db.create_all()
+    
+    # Auto-seed the database if it's empty
+    try:
+        with open('seed_data.json', 'r') as f:
+            seed_data = json.load(f)
+            
+        model_map = {
+            'User': User, 'Movie': Movie, 'Admin': Admin,
+            'City': City, 'Area': Area, 'Theater': Theater,
+            'Screen': Screen, 'ShowTime': ShowTime,
+            'Seat': Seat, 'Booking': Booking
+        }
+        
+        for table_name in ['User', 'Movie', 'Admin', 'City', 'Area', 'Theater', 'Screen', 'ShowTime', 'Seat', 'Booking']:
+            model_class = model_map[table_name]
+            
+            # Skip if already has data
+            if model_class.query.first():
+                continue
+                
+            records = seed_data.get(table_name, [])
+            objects = []
+            
+            for row in records:
+                # Convert date/time strings back to objects
+                for k, v in row.items():
+                    if isinstance(v, str):
+                        if len(v) == 10 and v.count('-') == 2:
+                            try:
+                                row[k] = datetime.strptime(v, '%Y-%m-%d').date()
+                            except ValueError: pass
+                        elif len(v) == 8 and v.count(':') == 2:
+                            try:
+                                row[k] = datetime.strptime(v, '%H:%M:%S').time()
+                            except ValueError: pass
+                        elif len(v) > 10 and '-' in v and ':' in v:
+                            try:
+                                row[k] = datetime.strptime(v.split('.')[0], '%Y-%m-%d %H:%M:%S')
+                            except ValueError: pass
+                            
+                objects.append(model_class(**row))
+            
+            if objects:
+                # Use fast bulk insert
+                db.session.bulk_save_objects(objects)
+                db.session.commit()
+                
+    except Exception as e:
+        print("Seeding skipped/failed:", e)
 
 if __name__ == '__main__':
     app.run(debug=True)
